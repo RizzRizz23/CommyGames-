@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Game Runner Tabs</title>
+<title>Commy Central</title>
 
 <style>
 body{
     background:#111;
     color:white;
-    font-family:Arial;
+    font-family:Arial, sans-serif;
     text-align:center;
     margin:0;
 }
@@ -49,6 +49,7 @@ input{
     width:250px;
     margin:10px;
     font-size:16px;
+    font-family: Arial, sans-serif; /* Changed font to sans-serif */
 }
 </style>
 </head>
@@ -82,17 +83,19 @@ input{
     
     <input type="text" id="tabNameInput" placeholder="Enter tab name">
     <br>
-    <input type="text" id="tabIconInput" placeholder="Enter icon URL">
+    <input type="text" id="tabIconInput" placeholder="Enter icon URL or domain">
     <br>
     <button onclick="applyCloak()">Apply</button>
 </div>
 
 <script>
+// Basic tab switching
 function openTab(tab){
     document.querySelectorAll(".content").forEach(c => c.style.display="none");
     document.getElementById(tab).style.display="block";
 }
 
+// GN-Math launch
 function launchGnMath(){
     fetch("https://cdn.jsdelivr.net/gh/gn-math/gn-math-DONTDMCA@main/autoupdate.html")
     .then(r => r.text())
@@ -104,21 +107,36 @@ function launchGnMath(){
     });
 }
 
+// Max-stash style cloaking
 function applyCloak(){
     const name = document.getElementById("tabNameInput").value;
-    const icon = document.getElementById("tabIconInput").value;
-    
+    const iconInput = document.getElementById("tabIconInput").value;
+
+    // Change tab title
     if(name) document.title = name;
-    if(icon){
+
+    // Change favicon
+    if(iconInput){
         let link = document.querySelector("link[rel~='icon']");
         if(!link){
             link = document.createElement('link');
             link.rel = 'icon';
             document.head.appendChild(link);
         }
-        link.href = icon;
+
+        // Use Google favicon API if input looks like a domain
+        if(!iconInput.startsWith('http')){
+            link.href = `https://www.google.com/s2/favicons?domain=${iconInput}&sz=64`;
+        } else {
+            link.href = iconInput;
+        }
+
+        // Force reload in some browsers
+        const newLink = link.cloneNode(true);
+        document.head.removeChild(link);
+        document.head.appendChild(newLink);
     }
-    
+
     alert("Cloak applied! Tab name and icon updated.");
 }
 </script>
