@@ -43,61 +43,84 @@ button{
     font-size:20px;
     cursor:pointer;
 }
+
+input{
+    padding:10px;
+    width:250px;
+    margin:10px;
+    font-size:16px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="tabs">
-<div class="tab" onclick="openTab('profile')">Profile</div>
-<div class="tab" onclick="openTab('game')">Games</div>
+    <div class="tab" onclick="openTab('profile')">Profile</div>
+    <div class="tab" onclick="openTab('game')">Games</div>
+    <div class="tab" onclick="openTab('cloaking')">Cloaking</div>
 </div>
 
 <!-- TAB 1 -->
 <div id="profile" class="content active">
-
-<h2>Welcome!</h2>
-
-<img src="https://lh3.googleusercontent.com/a-/default-user" 
-width="150"
-style="border-radius:50%;">
-
-<p>Click tabs for different fun stuff!</p>
-
+    <h2>Welcome!</h2>
+    <img src="https://lh3.googleusercontent.com/a-/default-user" 
+    width="150" style="border-radius:50%;">
+    <p>Click tabs for different fun stuff!</p>
 </div>
 
 <!-- TAB 2 -->
 <div id="game" class="content">
+    <h1>Games</h1>
+    <button onclick="launchGnMath()">Open GN-Math</button>
+</div>
 
-<h1>Games</h1>
-
-<button onclick="launchGnMath()">Open GN-Math</button>
-
+<!-- TAB 3 -->
+<div id="cloaking" class="content">
+    <h1>Cloaking</h1>
+    <p>Set your tab name and tab icon:</p>
+    
+    <input type="text" id="tabNameInput" placeholder="Enter tab name">
+    <br>
+    <input type="text" id="tabIconInput" placeholder="Enter icon URL">
+    <br>
+    <button onclick="applyCloak()">Apply</button>
 </div>
 
 <script>
-
 function openTab(tab){
     document.querySelectorAll(".content").forEach(c => c.style.display="none");
     document.getElementById(tab).style.display="block";
 }
 
 function launchGnMath(){
-
-fetch("https://cdn.jsdelivr.net/gh/gn-math/gn-math-DONTDMCA@main/autoupdate.html")
-.then(r => r.text())
-.then(code => {
-
-    const win = window.open("about:blank");
-
-    win.document.open();
-    win.document.write(code);
-    win.document.close();
-
-});
-
+    fetch("https://cdn.jsdelivr.net/gh/gn-math/gn-math-DONTDMCA@main/autoupdate.html")
+    .then(r => r.text())
+    .then(code => {
+        const win = window.open("about:blank");
+        win.document.open();
+        win.document.write(code);
+        win.document.close();
+    });
 }
 
+function applyCloak(){
+    const name = document.getElementById("tabNameInput").value;
+    const icon = document.getElementById("tabIconInput").value;
+    
+    if(name) document.title = name;
+    if(icon){
+        let link = document.querySelector("link[rel~='icon']");
+        if(!link){
+            link = document.createElement('link');
+            link.rel = 'icon';
+            document.head.appendChild(link);
+        }
+        link.href = icon;
+    }
+    
+    alert("Cloak applied! Tab name and icon updated.");
+}
 </script>
 
 </body>
