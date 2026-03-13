@@ -6,5 +6,7 @@ NOTICE:
 
 CommyGames are not just games, there will be more soon!
 
-v0.1 3/12/26
-<br>-added gn-math, and a title screen
+v0.1    ~6:00 PST     3/12/26
+<br>-added gn-math, and a title screen. Hope you have fun!
+<br>     9:47 PST
+<br>-added cloaking. Cloak away!
