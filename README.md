@@ -2,7 +2,7 @@
 Hello!
 
 NOTICE:
-The CommyGamesLauncher file just lanuches CommyGames in a blank tab more compactly. The COMMYGAMES html file is what actually holds everything.
+<br>The CommyGamesLauncher file just lanuches CommyGames in a blank tab more compactly. The COMMYGAMES html file is what actually holds everything.
 
 CommyGames are not just games, there will be more soon!
 
