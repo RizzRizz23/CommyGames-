@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Game Runner Tabs</title>
+
+<style>
+body{
+    background:#111;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+    margin:0;
+}
+
+.tabs{
+    display:flex;
+    background:#222;
+}
+
+.tab{
+    flex:1;
+    padding:15px;
+    cursor:pointer;
+    border-right:1px solid #333;
+}
+
+.tab:hover{
+    background:#333;
+}
+
+.content{
+    display:none;
+    padding:60px;
+}
+
+.active{
+    display:block;
+}
+
+button{
+    padding:20px 40px;
+    font-size:20px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="tabs">
+<div class="tab" onclick="openTab('profile')">Profile</div>
+<div class="tab" onclick="openTab('game')">Game Runner</div>
+</div>
+
+<!-- TAB 1 -->
+<div id="profile" class="content active">
+
+<h2>Welcome!</h2>
+
+<img src="https://lh3.googleusercontent.com/a-/default-user" 
+width="150"
+style="border-radius:50%;">
+
+<p>Click tabs for different fun stuff!</p>
+
+</div>
+
+<!-- TAB 2 -->
+<div id="game" class="content">
+
+<h1>Game Runner</h1>
+
+<button onclick="launchGnMath()">Open GN-Math</button>
+
+</div>
+
+<script>
+
+function openTab(tab){
+    document.querySelectorAll(".content").forEach(c => c.style.display="none");
+    document.getElementById(tab).style.display="block";
+}
+
+function launchGnMath(){
+
+fetch("https://cdn.jsdelivr.net/gh/gn-math/gn-math-DONTDMCA@main/autoupdate.html")
+.then(r => r.text())
+.then(code => {
+
+    const win = window.open("about:blank");
+
+    win.document.open();
+    win.document.write(code);
+    win.document.close();
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
