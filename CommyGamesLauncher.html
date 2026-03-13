@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runner Launcher</title>
+<style>
+    :root { --primary:#007bff; --bg:#0a0a0a; --card:#111; --text:#eee; --boost:#ff00ff; }
+
+    body { 
+        background:var(--bg); 
+        color:var(--text); 
+        font-family: 'Segoe UI', sans-serif; 
+        display:flex; 
+        justify-content:center; 
+        align-items:center; 
+        min-height:100vh; 
+        margin:0; 
+        flex-direction:column; 
+        padding:40px 0; 
+        box-sizing:border-box; 
+    }
+
+    .container { 
+        text-align:center; 
+        background:var(--card); 
+        padding:40px; 
+        border-radius:24px; 
+        border:1px solid #333; 
+        width:340px; 
+        box-shadow:0 20px 60px rgba(0,0,0,0.8); 
+    }
+
+    .logo { 
+        font-size:1.2rem; 
+        font-weight:800; 
+        letter-spacing:3px; 
+        color:var(--primary); 
+        margin-bottom:5px; 
+    }
+
+    #status { 
+        font-size:0.85rem; 
+        color:#555; 
+        margin-bottom:25px; 
+        text-transform:uppercase; 
+        font-weight:bold; 
+    }
+
+    /* "Launch!" button: big, bold, gradient */
+    button#loadBtn {
+        width: 100%;
+        padding: 20px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 900;
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        cursor: pointer;
+        color: white;
+        background: linear-gradient(90deg, #007bff 0%, #ff4757 50%, #007bff 100%);
+        background-size: 200% 100%;
+        animation: moveGradient 10s linear infinite;
+        box-shadow: 0 0 20px rgba(0,123,255,0.6);
+        transition: transform 0.3s;
+    }
+
+    button#loadBtn:hover {
+        transform: scale(1.05);
+    }
+
+    /* "Launch CommyGames" button: bright yellow with white glow */
+    button#launchBtn {
+        width: 100%;
+        padding: 18px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 900;
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+        cursor: pointer;
+        color: #ffff33; /* bright yellow */
+        text-shadow: 0 0 8px #fff, 0 0 15px #fff, 0 0 25px #fff;
+        background: #222; /* dark background for contrast */
+        box-shadow: 0 0 20px #ffff33;
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: none; /* initially hidden */
+    }
+
+    button#launchBtn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px #ffff33, 0 0 40px #fff;
+    }
+
+    @keyframes moveGradient {
+        0% { background-position: 0% 0%; }
+        100% { background-position: 200% 0%; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">Launch CommyGames</div>
+    <div id="status">Click "Launch!" to initiate the process</div>
+    <button id="loadBtn" onclick="loadRunner()">Launch!</button>
+    <button id="launchBtn" onclick="openRunner()">Launch CommyGames</button>
+</div>
+
+<script>
+    const USER = "RizzRizz23";
+    const REPO = "CommyGames-";
+    let runnerCode = "";
+
+    async function loadRunner() {
+        const status = document.getElementById('status');
+        const loadBtn = document.getElementById('loadBtn');
+        const launchBtn = document.getElementById('launchBtn');
+        status.innerText = "Fetching runner.html...";
+        loadBtn.disabled = true;
+
+        try {
+            const url = `https://cdn.jsdelivr.net/gh/${USER}/${REPO}/runner.html?nocache=${Date.now()}`;
+            const res = await fetch(url, {cache:"no-store"});
+            if (res.ok) {
+                runnerCode = await res.text();
+                status.innerText = "Ready!";
+                launchBtn.style.display = "block";
+                loadBtn.style.display = "none"; // hide the first button
+            } else {
+                status.innerText = "Runner not found!";
+                loadBtn.disabled = false;
+            }
+        } catch (e) {
+            status.innerText = "Fetch error!";
+            loadBtn.disabled = false;
+        }
+    }
+
+    function openRunner() {
+        if (!runnerCode) return;
+        const win = window.open('about:blank', '_blank');
+        if (win) {
+            win.document.open();
+            win.document.write(runnerCode);
+            win.document.close();
+        }
+    }
+</script>
+
+</body>
+</html>
